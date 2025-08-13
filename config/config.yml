@@ -1,0 +1,22 @@
+app:
+  name: "OrderService"
+  version: "1.0.0"
+
+db:
+  max_pool_size: 2
+  migrate: true
+
+server:
+  shutdown_timeout: 10s
+
+logger:
+  level: "info"
+
+web:
+  path: "./web"
+
+cache:
+  capacity: 1000
+
+kafka:
+  topic: "orders"

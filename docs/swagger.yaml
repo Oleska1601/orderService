@@ -1,0 +1,187 @@
+basePath: /
+definitions:
+  entity.Delivery:
+    properties:
+      address:
+        example: ул. Ленина, д. 1, кв. 1
+        type: string
+      city:
+        example: Москва
+        type: string
+      email:
+        example: a@example.com
+        type: string
+      name:
+        example: Иван Иванов
+        type: string
+      order_uid:
+        type: string
+      phone:
+        example: +7 910 000-0001
+        type: string
+      region:
+        example: Московская область
+        type: string
+      zip:
+        example: "101000"
+        type: string
+    type: object
+  entity.Order:
+    properties:
+      customer_id:
+        example: "1"
+        type: string
+      date_created:
+        example: "2021-11-26T06:22:19Z"
+        type: string
+      delivery:
+        $ref: '#/definitions/entity.Delivery'
+      delivery_service:
+        example: test_delivery_service1
+        type: string
+      entry:
+        example: WBIL
+        type: string
+      internal_signature:
+        example: ""
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/entity.OrderItems'
+        type: array
+      locale:
+        example: en
+        type: string
+      oof_shard:
+        example: "1"
+        type: string
+      order_uid:
+        example: order-4ad61f67-9281-4997-a411-c3e21fe5823c
+        type: string
+      payment:
+        $ref: '#/definitions/entity.Payment'
+      shardkey:
+        example: 9
+        type: integer
+      sm_id:
+        example: 99
+        type: integer
+      track_number:
+        example: WB-4ad61f67-9281-4997-a411-c3e21fe5823c
+        type: string
+    type: object
+  entity.OrderItems:
+    properties:
+      brand:
+        example: Brand-W2
+        type: string
+      chrt_id:
+        example: 5066679
+        type: integer
+      item_id:
+        type: integer
+      name:
+        example: Test Product Name 1
+        type: string
+      nm_id:
+        example: 6332706
+        type: integer
+      price:
+        example: 4499
+        type: integer
+      rid:
+        example: rid-4ad61f67-9281-4997-a411-c3e21fe5823c
+        type: string
+      sale:
+        example: 15
+        type: integer
+      size:
+        example: "1"
+        type: string
+      status:
+        example: 202
+        type: integer
+      total_price:
+        example: 5000
+        type: integer
+      track_number:
+        example: WB-4ad61f67-9281-4997-a411-c3e21fe5823c
+        type: string
+    type: object
+  entity.Payment:
+    properties:
+      amount:
+        example: 5300
+        type: number
+      bank:
+        example: alpha
+        type: string
+      currency:
+        example: USD
+        type: string
+      custom_fee:
+        example: 0
+        type: integer
+      delivery_cost:
+        example: 300
+        type: number
+      goods_total:
+        example: 5000
+        type: integer
+      order_uid:
+        type: string
+      payment_dt:
+        example: 1637907727
+        type: integer
+      provider:
+        example: wbpay
+        type: string
+      request_id:
+        example: ""
+        type: string
+      transaction:
+        example: transaction-4ad61f67-9281-4997-a411-c3e21fe5823c
+        type: string
+    type: object
+host: localhost:8081
+info:
+  contact: {}
+  description: API for Order Service
+  termsOfService: http://swagger.io/terms/
+  title: Order Service
+  version: "1.0"
+paths:
+  /order/{order_uid}:
+    get:
+      consumes:
+      - application/json
+      description: get order info by orderUID
+      parameters:
+      - description: Order UID
+        in: path
+        name: order_uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get order by orderUID is successful
+          schema:
+            $ref: '#/definitions/entity.Order'
+        "400":
+          description: no order_uid is provided
+          schema:
+            type: string
+        "404":
+          description: not found
+          schema:
+            type: string
+        "500":
+          description: error of getting order
+          schema:
+            type: string
+      summary: get page
+      tags:
+      - order
+swagger: "2.0"

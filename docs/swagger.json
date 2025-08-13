@@ -1,0 +1,263 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API for Order Service",
+        "title": "Order Service",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8081",
+    "basePath": "/",
+    "paths": {
+        "/order/{order_uid}": {
+            "get": {
+                "description": "get order info by orderUID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "get page",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order UID",
+                        "name": "order_uid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "get order by orderUID is successful",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Order"
+                        }
+                    },
+                    "400": {
+                        "description": "no order_uid is provided",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "error of getting order",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.Delivery": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string",
+                    "example": "ул. Ленина, д. 1, кв. 1"
+                },
+                "city": {
+                    "type": "string",
+                    "example": "Москва"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "a@example.com"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Иван Иванов"
+                },
+                "order_uid": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+7 910 000-0001"
+                },
+                "region": {
+                    "type": "string",
+                    "example": "Московская область"
+                },
+                "zip": {
+                    "type": "string",
+                    "example": "101000"
+                }
+            }
+        },
+        "entity.Order": {
+            "type": "object",
+            "properties": {
+                "customer_id": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "date_created": {
+                    "type": "string",
+                    "example": "2021-11-26T06:22:19Z"
+                },
+                "delivery": {
+                    "$ref": "#/definitions/entity.Delivery"
+                },
+                "delivery_service": {
+                    "type": "string",
+                    "example": "test_delivery_service1"
+                },
+                "entry": {
+                    "type": "string",
+                    "example": "WBIL"
+                },
+                "internal_signature": {
+                    "type": "string",
+                    "example": ""
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.OrderItems"
+                    }
+                },
+                "locale": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "oof_shard": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "order_uid": {
+                    "type": "string",
+                    "example": "order-4ad61f67-9281-4997-a411-c3e21fe5823c"
+                },
+                "payment": {
+                    "$ref": "#/definitions/entity.Payment"
+                },
+                "shardkey": {
+                    "type": "integer",
+                    "example": 9
+                },
+                "sm_id": {
+                    "type": "integer",
+                    "example": 99
+                },
+                "track_number": {
+                    "type": "string",
+                    "example": "WB-4ad61f67-9281-4997-a411-c3e21fe5823c"
+                }
+            }
+        },
+        "entity.OrderItems": {
+            "type": "object",
+            "properties": {
+                "brand": {
+                    "type": "string",
+                    "example": "Brand-W2"
+                },
+                "chrt_id": {
+                    "type": "integer",
+                    "example": 5066679
+                },
+                "item_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Test Product Name 1"
+                },
+                "nm_id": {
+                    "type": "integer",
+                    "example": 6332706
+                },
+                "price": {
+                    "type": "integer",
+                    "example": 4499
+                },
+                "rid": {
+                    "type": "string",
+                    "example": "rid-4ad61f67-9281-4997-a411-c3e21fe5823c"
+                },
+                "sale": {
+                    "type": "integer",
+                    "example": 15
+                },
+                "size": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 202
+                },
+                "total_price": {
+                    "type": "integer",
+                    "example": 5000
+                },
+                "track_number": {
+                    "type": "string",
+                    "example": "WB-4ad61f67-9281-4997-a411-c3e21fe5823c"
+                }
+            }
+        },
+        "entity.Payment": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "example": 5300
+                },
+                "bank": {
+                    "type": "string",
+                    "example": "alpha"
+                },
+                "currency": {
+                    "type": "string",
+                    "example": "USD"
+                },
+                "custom_fee": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "delivery_cost": {
+                    "type": "number",
+                    "example": 300
+                },
+                "goods_total": {
+                    "type": "integer",
+                    "example": 5000
+                },
+                "order_uid": {
+                    "type": "string"
+                },
+                "payment_dt": {
+                    "type": "integer",
+                    "example": 1637907727
+                },
+                "provider": {
+                    "type": "string",
+                    "example": "wbpay"
+                },
+                "request_id": {
+                    "type": "string",
+                    "example": ""
+                },
+                "transaction": {
+                    "type": "string",
+                    "example": "transaction-4ad61f67-9281-4997-a411-c3e21fe5823c"
+                }
+            }
+        }
+    }
+}
