@@ -38,6 +38,7 @@ func Run(cfg *config.Config) {
 	logger.Info("apply migrations successful")
 
 	cache := cache.New(cfg.Cache.Capacity)
+	logger.Info("initialise cashe successful")
 	usecase, err := usecase.NewUsecase(cache, pgRepo, logger)
 	if err != nil {
 		logger.Error("main usecase.NewUsecase", slog.Any("error", err))

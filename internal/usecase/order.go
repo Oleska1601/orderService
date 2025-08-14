@@ -23,6 +23,5 @@ func (u *Usecase) GetOrderByOrderUID(ctx context.Context, orderUID string) (*ent
 		return nil, errors.New("not found")
 
 	}
-	u.cache.Set(orderUID, *order)
 	return order, nil
 }
