@@ -81,6 +81,10 @@ func (c *Consumer) ConsumerProcessMessage(ctx context.Context, msg kafka.Message
 
 	c.logger.Debug("ConsumerProcessMessage tx.Commit", slog.String("message", "commit transaction"), slog.String("message key", string(msg.Key)))
 
+	//7. Сохранение в кэш
+	c.cache.Set(order.OrderUID, order)
+	c.logger.Debug("ConsumerProcessMessage c.cache.Set", slog.String("message", "add message to cache"), slog.String("message key", string(msg.Key)))
+
 	if err := c.reader.CommitMessages(ctx, msg); err != nil {
 		c.logger.Error("ConsumerProcessMessage c.reader.CommitMessages", slog.Any("error", err),
 			slog.String("message key", string(msg.Key)))

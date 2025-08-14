@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"orderService/internal/cache"
 	"orderService/internal/database/repo"
 	"orderService/pkg/logger"
 
@@ -13,22 +14,25 @@ import (
 
 type Consumer struct {
 	reader *kafka.Reader
+	cache  *cache.LRUCache
 	pgRepo repo.PgRepoInterface
 	logger logger.LoggerInterface
 }
 
-func NewConsumer(brokers []string, topic string, pgRepo repo.PgRepoInterface, logger logger.LoggerInterface) *Consumer {
+func NewConsumer(brokers []string, topic string, cache *cache.LRUCache, pgRepo repo.PgRepoInterface, logger logger.LoggerInterface) *Consumer {
 	r := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:     brokers,
 		Topic:       topic,
 		GroupID:     "order-service",
 		StartOffset: kafka.FirstOffset,
 	})
-	return &Consumer{
+	c := &Consumer{
 		reader: r,
+		cache:  cache,
 		pgRepo: pgRepo,
 		logger: logger,
 	}
+	return c
 }
 
 func (c *Consumer) RunConsumer(ctx context.Context) {

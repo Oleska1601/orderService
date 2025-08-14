@@ -38,14 +38,13 @@ func Run(cfg *config.Config) {
 	logger.Info("apply migrations successful")
 
 	cache := cache.New(cfg.Cache.Capacity)
-	logger.Info("initialise cashe successful")
 	usecase, err := usecase.NewUsecase(cache, pgRepo, logger)
 	if err != nil {
 		logger.Error("main usecase.NewUsecase", slog.Any("error", err))
 		return
 	}
 	server := controller.New(usecase, logger)
-	consumer := consumer.NewConsumer(cfg.Kafka.Brokers, cfg.Kafka.Topic, pgRepo, logger)
+	consumer := consumer.NewConsumer(cfg.Kafka.Brokers, cfg.Kafka.Topic, cache, pgRepo, logger)
 	producer := producer.NewProducer(cfg.Kafka.Brokers, cfg.Kafka.Topic, pgRepo, logger)
 	go consumer.RunConsumer(ctx)
 	go producer.RunProducer(ctx)
