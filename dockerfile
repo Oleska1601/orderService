@@ -21,6 +21,7 @@ WORKDIR /app
 COPY --from=builder /app/order_service ./order_service
 COPY config/config.yml ./config/config.yml
 COPY internal/database/repo/migrations/ ./internal/database/repo/sql/*.sql
+COPY static ./static
 
 # Открываем порт
 EXPOSE 8081

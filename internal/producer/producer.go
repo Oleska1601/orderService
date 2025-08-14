@@ -3,8 +3,10 @@ package producer
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log/slog"
+	"orderService/internal/database/repo"
 	"orderService/pkg/logger"
 	"time"
 
@@ -13,10 +15,11 @@ import (
 
 type Producer struct {
 	writer *kafka.Writer
+	pgRepo repo.PgRepoInterface
 	logger logger.LoggerInterface
 }
 
-func NewProducer(brokers []string, topic string, logger logger.LoggerInterface) *Producer {
+func NewProducer(brokers []string, topic string, pgRepo repo.PgRepoInterface, logger logger.LoggerInterface) *Producer {
 	w := kafka.NewWriter(kafka.WriterConfig{
 		Brokers:      brokers,
 		Topic:        topic,
@@ -26,6 +29,7 @@ func NewProducer(brokers []string, topic string, logger logger.LoggerInterface) 
 	})
 	return &Producer{
 		writer: w,
+		pgRepo: pgRepo,
 		logger: logger,
 	}
 }
@@ -33,7 +37,7 @@ func NewProducer(brokers []string, topic string, logger logger.LoggerInterface) 
 func (p *Producer) RunProducer(ctx context.Context) {
 	p.logger.Info("start producer")
 	defer p.StopProducer()
-	ordersChan := generateOrdersChan(ctx)
+	ordersChan := p.generateOrdersChan(ctx)
 	for {
 		select {
 		case <-ctx.Done():
@@ -49,7 +53,12 @@ func (p *Producer) RunProducer(ctx context.Context) {
 				Key:   []byte(order.OrderUID),
 				Value: value,
 			}
-			if err := p.writer.WriteMessages(ctx, msg); err != nil {
+			err = p.writer.WriteMessages(ctx, msg)
+			if err != nil {
+				if errors.Is(err, context.Canceled) {
+					p.logger.Info("RunProducer ctx.Done", slog.String("message", "stop producer due to context"))
+					return
+				}
 				p.logger.Error("RunProducer p.writer.WriteMessages", slog.Any("error", err))
 				continue
 			}

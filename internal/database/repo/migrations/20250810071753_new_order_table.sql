@@ -3,7 +3,7 @@ create table if not exists orders (
     order_uid varchar(50) primary key, /*Transaction ID for assembly orders grouping. Orders in the same buyer's cart will have the same orderUid*/
     track_number varchar(50) not null unique, /*трек-номер для отслеживания посылки - принимаем, что заказ отп*/
     entry varchar(10) not null,
-    locale varchar(10),
+    locale varchar(10) not null,
     internal_signature varchar(100),
     customer_id varchar(50) not null,
     delivery_service varchar(50),

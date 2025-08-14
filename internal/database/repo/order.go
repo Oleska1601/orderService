@@ -25,6 +25,7 @@ func (r *PgRepo) GetOrderByOrderUID(ctx context.Context, orderUID string) (*enti
 			"'nm_id', i.nm_id,"+
 			"'brand', i.brand,"+
 			"'rid', oi.rid,"+
+			"'track_number', oi.track_number,"+
 			"'sale', oi.sale,"+
 			"'size', oi.size,"+
 			"'total_price', oi.total_price,"+

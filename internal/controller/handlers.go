@@ -8,6 +8,12 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func (s *Server) HomeHandler(w http.ResponseWriter, r *http.Request) {
+	// Отдаем главную страницу
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	http.ServeFile(w, r, "./static/index.html")
+}
+
 // GetOrderByOrderUID
 // @Summary get page
 // @Description get order info by orderUID

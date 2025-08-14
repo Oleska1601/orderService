@@ -46,7 +46,7 @@ func Run(cfg *config.Config) {
 	}
 	server := controller.New(usecase, logger)
 	consumer := consumer.NewConsumer(cfg.Kafka.Brokers, cfg.Kafka.Topic, pgRepo, logger)
-	producer := producer.NewProducer(cfg.Kafka.Brokers, cfg.Kafka.Topic, logger)
+	producer := producer.NewProducer(cfg.Kafka.Brokers, cfg.Kafka.Topic, pgRepo, logger)
 	go consumer.RunConsumer(ctx)
 	go producer.RunProducer(ctx)
 	go server.Run(cfg.Server.Port)

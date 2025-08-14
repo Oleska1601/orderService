@@ -10,6 +10,7 @@ import (
 
 type PgRepoInterface interface {
 	ApplyMigrations() error
+	GetItemByItemID(context.Context, int64) (*entity.Item, error)
 	GetOrderByOrderUID(context.Context, string) (*entity.Order, error)
 	GetOrdersWithCapacity(context.Context, int) ([]entity.Order, error)
 	SaveDelivery(context.Context, pgx.Tx, entity.Delivery) error

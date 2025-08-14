@@ -4,12 +4,12 @@ create table if not exists order_items (
     item_id integer not null references items(item_id) on delete cascade, 
     track_number varchar(50) not null references orders(track_number) on delete cascade,
     sale integer,
-    size varchar(20),
+    size varchar(20) not null,
     total_price integer not null, /*price - sale*/
     status integer not null
 );
 
-INSERT INTO items (chrt_id, price, name, nm_id, brand) VALUES
+insert into items (chrt_id, price, name, nm_id, brand) values
     (5066679, 4499, 'Test Product Name 1', 6332706, 'Brand-W2'),
     (1476857, 608, 'Test Product Name 2', 8761248, 'Brand-Y3'),
     (3018882, 610, 'Test Product Name 3', 4676794, 'Brand-J3'),

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Info</title>
+    <link rel="stylesheet" href="./static/styles.css">
+</head>
+<body>
+    
+    <h1>Order Information</h1>
+    
+    <div class="input-section">
+        <input type="text" id="orderId" placeholder="Enter order UID">
+        <button onclick="fetchOrder()">Get Order</button>
+        <div id="message" class="error-message"></div>
+    </div>
+    
+    <div id="orderInfo" style="display: none;">
+        <div class="section" id="orderSection">
+            <h2>Order</h2>
+            <pre id="orderData"></pre>
+        </div>
+        
+        <div class="section" id="deliverySection">
+            <h2>Delivery</h2>
+            <pre id="deliveryData"></pre>
+        </div>
+        
+        <div class="section" id="paymentSection">
+            <h2>Payment</h2>
+            <pre id="paymentData"></pre>
+        </div>
+        
+        <div class="section" id="itemsSection">
+            <h2>Order Items</h2>
+            <pre id="itemsData"></pre>
+        </div>
+    </div>
+    <script src="./static/app.js"></script>
+</body>
+</html>
